@@ -1,0 +1,35 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial; font-size: 14px; margin: 0; padding: 10px; }
+    h3 { margin-bottom: 5px; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 4px 8px; }
+  </style>
+</head>
+<body>
+  <h3>Jadwal Sholat Hari Ini</h3>
+  <div id="jadwal"></div>
+
+  <script>
+    async function getJadwal() {
+      const response = await fetch('https://api.myquran.com/v1/sholat/jadwal/1227/' + new Date().toISOString().split('T')[0]);
+      const data = await response.json();
+      const waktu = data.data.jadwal;
+      document.getElementById("jadwal").innerHTML = `
+        <table>
+          <tr><td>Imsak</td><td>: waktu.imsak</td></tr>
+          <tr><td>Subuh</td><td>:{waktu.subuh}</td></tr>
+          <tr><td>Dzuhur</td><td>: waktu.dzuhur</td></tr>
+          <tr><td>Ashar</td><td>:{waktu.ashar}</td></tr>
+          <tr><td>Maghrib</td><td>: ${waktu.maghrib}</td></tr><tr><td>Isya</td><td>:{waktu.isya}</td></tr>
+        </table>
+      `;
+    }
+    getJadwal();
+  </script>
+</body>
+</html>
